@@ -17,7 +17,7 @@ exports.read = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    Todos.findByIdAndUpdate(req.body.id, {
+    Todos.findOneAndUpdate({id: req.body.id}, {
         done: req.body.done,
         text: req.body.text
     }, {}, function (err, todo) {
@@ -26,7 +26,8 @@ exports.update = function (req, res) {
 };
 
 exports.remove = function (req, res) {
-    Todos.findByIdAndRemove(req.params.id, function (err, todo) {
+    console.log(req.params.id)
+    Todos.findOneAndRemove({id: req.params.id}, function (err, todo) {
         res.json(todo);
     });
 };
