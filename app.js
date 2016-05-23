@@ -15,20 +15,10 @@ var cookieParser = require('cookie-parser');
 var httpProxy = require('http-proxy');
 
 var app = express();
-var routes = require('./server/routes/todos');
+var routesAPI = require('./api/routes/index');
 
 var isDev = process.env.NODE_ENV !== 'production';
 var proxy = httpProxy.createProxyServer();
-
-// Mongo config =====================================
-mongoose.connect('mongodb://localhost/test', function (err) {
-    if (err) {
-        console.log('connect error', err);
-    }
-    else {
-        console.log('connect success');
-    }
-});
 
 // view engine =====================================
 template.config('base', '');
@@ -42,16 +32,26 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'output')));
+
+// routes =====================================
+app.use('/api', routesAPI);
 
 // We only want to run the workflow when in dev
 if (isDev) {
     require('./webpack.dev.config.js')();
 
-    app.all('/public/*', function (req, res) {
+    // localhost:8080/output/index.html
+    app.use('/', function (req, res) {
         proxy.web(req, res, {
-            target: 'http://localhost:8080'
+            target: 'http://localhost:8080/output/'
         });
+    });
+    // add browserSync
+}
+else {
+    app.use(function (req, res) {
+        res.sendFile(path.join(__dirname, 'output', 'index.html'));
     });
 }
 
@@ -61,9 +61,6 @@ if (isDev) {
 proxy.on('error', function (e) {
   console.log('Could not connect to proxy, please try again...');
 });
-
-// routes =====================================
-app.use('/', routes);
 
 // error handlers =====================================
 // catch 404 and forward to error handler

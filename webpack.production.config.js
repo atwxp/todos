@@ -1,5 +1,5 @@
 /**
- * @file webpack base config file
+ * @file webpack production config file
  * @author wxp201013@163.com
  */
 
@@ -8,6 +8,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var abs = function () {
 
@@ -17,16 +18,14 @@ var abs = function () {
 };
 
 module.exports = {
-    context: abs('client', 'src'),
+    context: abs('client'),
 
-    entry: ['./app.js'],
+    entry: ['./index.js'],
 
     output: {
-        path: abs('public'),
+        path: abs('output'),
 
-        filename: 'app.js',
-
-        publicPath: '/public/'
+        filename: 'index.js'
     },
 
     module: {
@@ -85,7 +84,7 @@ module.exports = {
     },
 
     plugins: [
-        new ExtractTextPlugin('app.css'),
+        new ExtractTextPlugin('index.css'),
 
         // this allows uglify to strip all warnings from Vue.js source code
         new webpack.DefinePlugin({
@@ -100,6 +99,10 @@ module.exports = {
             compress: {
                 warnings: false
             }
+        }),
+
+        new HtmlWebpackPlugin({
+            template: 'index.html'
         })
     ],
 

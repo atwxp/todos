@@ -8,25 +8,23 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var abs = function () {
-
     var p = [__dirname].concat(Array.prototype.slice.call(arguments));
 
     return path.join.apply(null, p);
 };
 
 module.exports = {
-    context: abs('client', 'src'),
+    context: abs('client'),
 
-    entry: ['./app.js'],
+    entry: ['./index.js'],
 
     output: {
-        path: abs('public'),
+        path: abs('output'),
 
-        filename: 'app.js',
-
-        publicPath: '/public/'
+        filename: 'index.js'
     },
 
     devtool: 'source-map',
@@ -107,7 +105,11 @@ module.exports = {
     },
 
     plugins: [
-        new ExtractTextPlugin('app.css')
+        new ExtractTextPlugin('index.css'),
+
+        new HtmlWebpackPlugin({
+            template: 'index.html'
+        })
     ],
 
     resolve: {

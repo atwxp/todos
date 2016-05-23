@@ -4,12 +4,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var TodoSchema = new Schema({
-    id: String,
-    text: String,
+    text: {
+        type: String,
+        required: true
+    },
     done: {
         type: Boolean,
         default: false
     }
 });
 
-module.exports = mongoose.model('Todos', TodoSchema);
+module.exports = mongoose.model('Todo', TodoSchema);

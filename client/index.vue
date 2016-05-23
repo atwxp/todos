@@ -1,5 +1,6 @@
 <template>
     <div class="app">
+        <!-- <img src="./assets/images/123.jpg" alt=""> -->
         <header>
             <h1 class="title">Todos</h1>
             <input type="text" v-model="todo" placeholder="Enter Todo" v-on:keyup.enter="addTodo">
@@ -11,28 +12,28 @@
                 <label for="toggle-all">Mark all as complete</label>
             </div>
 
-            <todo-item v-for="td in todos" :todo="td"></todo-item>
+            <todo-item v-for="td in todos" :todo.sync="td"></todo-item>
         </section>
         
         <footer>
             <span class="remaing-text">{{remaining}} item<template v-if="remaining>1">s</template> left</span>
-            <a href="" class="status all">All</a>
-            <a href="" class="status active">Active</a>
-            <a href="" class="status done">Done</a>
+            <a class="status all">All</a>
+            <a class="status active">Active</a>
+            <a class="status done">Done</a>
             <span class="clear-done" v-show="done" v-on:click="clearDone">Clear Done</span>
         </footer>
     </div>
 </template>
 
 <script>
-    var util = require('./util');
+    var todoData = require('./services/todo');
 
     module.exports = {
         data: function () {
             return {
                 todo: '',
-                allDone: false,
-                todos: []
+                todos: [],
+                allDone: false
             };
         },
 
@@ -63,68 +64,51 @@
         },
 
         ready: function () {
-            this.$http.get('/api/todos')
-                .then(function (res) {
-                    this.$set('todos', res.data);
-                })
-                .catch(function (err) {
-                    console.log('get err: ', err);
-                });
+            this.getTodo();  
         },
 
         methods: {
-            addTodo: function () {
-                this.$http.post('/api/todos', {
-                    id: util.gid(),
-                    text: this.todo,
-                    done: false
-                })
-                .then(function (res) {
-                    this.todos.unshift(res.data);
-                })
-                .catch(function (err) {
-                    console.log(err);
-                });
-
-                this.todo = '';
+            getTodo: function () {
+                var me = this;
+                todoData
+                    .getTodoList()
+                    .then(function (res) {
+                        me.$set('todos', res.data);
+                    })
+                    .catch(function (err) {
+                        console.log('get err: ', err);
+                    });
             },
 
+            addTodo: function () {
+                var me = this;
+
+                todoData
+                    .addTodo({
+                        text: me.todo,
+                        done: false
+                    })
+                    .then(function (res) {
+                        me.todos.unshift(res.data);
+                        me.todo = '';
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
+
+            },
+
+            // 批量删除
             clearDone: function () {
-                // 批量删除
+                console.log('clear all');
             }
         },
 
         events: {
-            'update-done': function (todo) {
-                this.$http.put('/api/todos', todo)
-                    .then(function (res) {
-                        todo = res.data;
-                    })
-                    .catch(function (err) {
-                        console.log('update done: ', err);
-                    });
-            },
-
-            'modify-todo': function (todo) {
-                this.$http.put('/api/todos/', todo)
-                    .then(function (res) {
-                        todo = res.data;
-                    })
-                    .catch(function (err) {
-                        console.log('modify todo: ', err);
-                    });
-            },
-
-            'del-todo': function (todo) {
-                this.$http.delete('/api/todos/' + todo.id)
-                    .then(function (res) {
-                        this.todos = this.todos.filter(function (v) {
-                            return v.id !== res.data.id;
-                        });
-                    })
-                    .catch(function (err) {
-                        console.log('delete todo: ', err);
-                    });
+            delTodo: function (todo) {
+                this.todos = this.todos.filter(function (v) {
+                    return v._id !== todo._id;
+                });
             }
         }
     };
@@ -165,7 +149,7 @@
             text-align: center;
         }
 
-        input[type=text] {
+        input[type="text"] {
             width: 466px;
             padding: 6px;
             font-size: 24px;

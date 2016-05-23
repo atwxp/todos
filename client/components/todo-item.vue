@@ -6,7 +6,7 @@
 
             <p class="todo-text" v-on:dblclick="editing=true">{{todo.text}}</p>
 
-            <span class="del" v-on:click="delTodo" v-show="showDel"></span>
+            <span class="del" v-on:click="delTodo(todo)" v-show="showDel"></span>
         </div>
 
         <div class="edit">
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+    var todoData = require('../services/todo');
     var util = require('../util');
 
     module.exports = {
@@ -29,29 +30,64 @@
         },
 
         watch: {
-            'todo.done': function () {
-                this.$dispatch('update-done', this.todo);
+            'todo.done': function (v) {
+                var oldTodo = this.todo;
+                var me = this;
+
+                todoData
+                    .updateTodo(oldTodo._id, {
+                        done: v,
+                        text: oldTodo.text
+                    })
+                    .then(function (res) {
+                        me.todo = res.data;
+                    });
             }
         },
 
         methods: {
             cancelEdit: function (e) {
                 var text = util.trim(e.target.value);
+                var oldTodo = this.todo;
+                var me = this;
 
                 if (!text) {
-                    this.$dispatch('del-todo', this.todo);
+                    this.delTodo(oldTodo)
+                        .then(function () {
+                            me.todo = null;
+                        });
+
+                    return;
                 }
 
-                if (text !== this.todo.text) {
-                    this.todo.text = text;
-                    this.$dispatch('modify-todo', this.todo);
-                }
+                if (text !== oldTodo.text) {
+                    todoData
+                        .updateTodo(oldTodo._id, {
+                            done: oldTodo.done,
+                            text: text
+                        })
+                        .then(function (res) {
+                            me.todo = res.data;
 
-                this.editing = false;
+                            me.editing = false;
+                        })
+                        .catch(function (err) {
+                            console.log('update todo: ', err);
+                        });
+                }
             },
 
-            delTodo: function () {
-                this.$dispatch('del-todo', this.todo);
+            delTodo: function (todo) {
+                var me = this;
+
+                return todoData
+                    .deleteTodo(todo._id)
+                    .then(function (res) {
+                        me.$dispatch('delTodo', res.data);
+                    })
+                    .catch(function (err) {
+                        console.log('delete todo: ', err);
+                    });
             }
         }
     }
@@ -92,6 +128,7 @@
                 height: 20px;
                 border-radius: 50%;
                 background-color: #ccc;
+                cursor: pointer;
                 &:before,
                 &:after {
                     content: '';

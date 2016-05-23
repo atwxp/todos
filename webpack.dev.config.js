@@ -1,3 +1,8 @@
+/**
+ * @file webpack dev config file
+ * @author wxp201013@163.com
+ */
+
 var webpack = require('webpack');
 var config = require('./webpack.config.js');
 var webpackDevServer = require('webpack-dev-server');
@@ -8,7 +13,7 @@ var compiler = webpack(config);
 
 module.exports = function () {
     new webpackDevServer(compiler, {
-        publicPath: '/public/',
+        publicPath: '/output/',
 
         // terminal config
         quiet: false,
@@ -17,4 +22,3 @@ module.exports = function () {
         console.log('Bundling project, please wait...');
     });
 };
-
