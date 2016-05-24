@@ -13,11 +13,16 @@ var compiler = webpack(config);
 
 module.exports = function () {
     new webpackDevServer(compiler, {
-        publicPath: '/output/',
+        contentBase: 'client/',
+
+        publicPath: '/static/',
 
         // terminal config
         quiet: false,
-        noInfo: false
+        noInfo: false,
+        stats: {
+            colors: true
+        }
     }).listen(8080, function () {
         console.log('Bundling project, please wait...');
     });

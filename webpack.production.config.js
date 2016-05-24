@@ -25,7 +25,9 @@ module.exports = {
     output: {
         path: abs('output'),
 
-        filename: 'index.js'
+        filename: 'index.js',
+
+        publicPath: '/static/'
     },
 
     module: {
@@ -102,7 +104,8 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({
-            template: 'index.html'
+            template: 'index.html',
+            inject: false
         })
     ],
 

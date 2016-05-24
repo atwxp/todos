@@ -4,6 +4,7 @@
   "description": "VEMN Todo App",
   "private": true,
   "scripts": {
+    "server": "webpack-dev-server --inline --colors --content-base client/",
     "start": "cross-env NODE_ENV=dev supervisor -i client assets ./bin/www",
     "pub": "webpack --config webpack.production.config.js & cross-env NODE_ENV=production node ./bin/www"
   },

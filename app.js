@@ -41,10 +41,15 @@ app.use('/api', routesAPI);
 if (isDev) {
     require('./webpack.dev.config.js')();
 
-    // localhost:8080/output/index.html
+    app.all('/static/', function () {
+        proxy.web(req, res, {
+            target: 'http://localhost:8080/static/'
+        });
+    });
+
     app.use('/', function (req, res) {
         proxy.web(req, res, {
-            target: 'http://localhost:8080/output/'
+            target: 'http://localhost:8080/'
         });
     });
     // add browserSync

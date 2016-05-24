@@ -24,7 +24,9 @@ module.exports = {
     output: {
         path: abs('output'),
 
-        filename: 'index.js'
+        filename: 'index.js',
+
+        publicPath: '/static/'
     },
 
     devtool: 'source-map',
@@ -108,7 +110,8 @@ module.exports = {
         new ExtractTextPlugin('index.css'),
 
         new HtmlWebpackPlugin({
-            template: 'index.html'
+            template: 'index.html',
+            inject: false
         })
     ],
 
