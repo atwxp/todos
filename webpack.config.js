@@ -116,6 +116,6 @@ module.exports = {
     ],
 
     resolve: {
-        extensions: ['', '.js', '.vue']
+        extensions: ['', '.less', '.vue', '.js']
     }
 };

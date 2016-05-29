@@ -60,7 +60,7 @@
         },
 
         components: {
-            'todo-item': require('./components/todo-item')
+            'todo-item': require('./components/todo-item/')
         },
 
         ready: function () {

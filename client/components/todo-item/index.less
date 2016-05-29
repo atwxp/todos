@@ -1,0 +1,91 @@
+.todo-item {
+        position: relative;
+        padding: 18px 0;
+        font-size: 24px;
+        border-bottom: 1px solid #ccc;
+        .view {
+            input[type=checkbox] {
+                float: left;
+                -webkit-appearance: none;
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                border: 1px solid #ccc;
+                margin: 7px 10px 0 0;
+                &::before {
+                    display: none;
+                    content: '';
+                    width: 10px;
+                    height: 5px;
+                    border: 2px solid #f9a4ad;
+                    border-top-color: transparent;
+                    border-right-color: transparent;
+                    transform: rotate(-45deg) translate(0px, 4px);
+                }
+            }
+
+            .del {
+                position: absolute;
+                right: 10px;
+                top: 27px;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: #ccc;
+                cursor: pointer;
+                &:before,
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    width: 2px;
+                    height: 10px;
+                    margin: auto;
+                    box-sizing: border-box;
+                    background-color: #fff;
+                }
+                &:before {
+                    transform: rotate(-45deg);
+                }
+                &:after {
+                    transform: rotate(45deg);
+                }
+                &:hover {
+                    background-color: #000;
+                }
+            }
+
+            &.done {
+                .todo-text {
+                    text-decoration: line-through;
+                    color: #ccc;
+                }
+
+                input[type=checkbox] {
+                    &::before {
+                        display: block;
+                    }
+                }
+            }
+        }
+
+        .edit {
+            display: none;
+
+            input[type=text] {
+
+            }
+        }
+
+        &.editing {
+            .view {
+                display: none;
+            }
+            .edit {
+                display: block;
+            }
+        }
+    }
