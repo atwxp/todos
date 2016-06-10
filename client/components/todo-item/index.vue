@@ -93,6 +93,4 @@
     }
 </script>
 
-<style src="./index">
-    
-</style>
+<style src="./index.less" lang="less"></style>

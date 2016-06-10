@@ -59,11 +59,6 @@ module.exports = {
                 test: /\.less$/,
                 loader: ExtractTextPlugin.extract('style', 'css?sourceMap!less?sourceMap')
             },
-
-            {
-                test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass?sourceMap')
-            },
             
             {
                 test: /\.(png|jpe?g|gif)$/,
@@ -100,7 +95,6 @@ module.exports = {
         loaders: {
             css: ExtractTextPlugin.extract('css?sourceMap'),
             less: ExtractTextPlugin.extract('css?sourceMap!less?sourceMap'),
-            scss: ExtractTextPlugin.extract('css?sourceMap!sass?sourceMap'),
             // lint all JavaScript inside *.vue files with ESLint
             js: 'eslint'
         }
@@ -116,6 +110,6 @@ module.exports = {
     ],
 
     resolve: {
-        extensions: ['', '.less', '.vue', '.js']
+        extensions: ['', '.vue', '.js']
     }
 };

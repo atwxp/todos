@@ -42,11 +42,6 @@ module.exports = {
             },
 
             {
-                test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('style', 'css!sass')
-            },
-
-            {
                 test: /\.(png|jpe?g|gif)$/,
                 loader: 'url',
                 query: {
@@ -80,8 +75,7 @@ module.exports = {
     vue: {
         loaders: {
             css: ExtractTextPlugin.extract('css'),
-            less: ExtractTextPlugin.extract('css!less'),
-            scss: ExtractTextPlugin.extract('css!sass')
+            less: ExtractTextPlugin.extract('css!less')
         }
     },
 
@@ -110,6 +104,6 @@ module.exports = {
     ],
 
     resolve: {
-        extensions: ['', '.less', '.vue', '.js']
+        extensions: ['', '.vue', '.js']
     }
 };

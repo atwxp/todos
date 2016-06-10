@@ -9,7 +9,6 @@ var logger = require('morgan'); // log requests to the console
 var express = require('express');
 var mongoose = require('mongoose'); // mongoose for mongodb
 var favicon = require('serve-favicon');
-var template = require('art-template');
 var bodyParser = require('body-parser'); // pull information from HTML POST
 var cookieParser = require('cookie-parser');
 var httpProxy = require('http-proxy');
@@ -21,11 +20,6 @@ var isDev = process.env.NODE_ENV !== 'production';
 var proxy = httpProxy.createProxyServer();
 
 // view engine =====================================
-template.config('base', '');
-template.config('extname', '.tpl');
-app.engine('.tpl', template.__express);
-app.set('views', path.join(__dirname, 'server', 'views'));
-app.set('view engine', 'tpl');
 
 // Middleware config =====================================
 app.use(logger('dev'));
