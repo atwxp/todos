@@ -11,6 +11,8 @@ VEMN(vue express mongodb node)
 
 - `browserSync` 自动刷新
 
+- `FECS` 代码检查
+
 browserSync 代理到 express，express 代理到 webpack
 
 ## 命令

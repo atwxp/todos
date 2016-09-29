@@ -6,8 +6,6 @@
 // set up =====================================
 import path from 'path';
 import logger from 'morgan'; // log requests to the console
-import mongoose from 'mongoose'; // mongoose for mongodb
-import favicon from 'serve-favicon';
 import bodyParser from 'body-parser'; // pull information from HTML POST
 import cookieParser from 'cookie-parser';
 import express from 'express';
@@ -31,7 +29,7 @@ const isDev = process.env.NODE_ENV !== 'production';
 // Middleware config =====================================
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'output')));
 
@@ -42,7 +40,7 @@ app.use('/api', routesAPI);
 if (isDev) {
     webpackDevConfig();
 
-    app.all('/static/', () => {
+    app.all('/static/', (req, res) => {
         proxy.web(req, res, {
             target: 'http://localhost:8080/static/'
         });
@@ -64,14 +62,14 @@ else {
 // It is important to catch any errors from the proxy or the
 // server will crash. An example of this is connecting to the
 // server when webpack is bundling
-proxy.on('error',  (e) => {
-  console.log('Could not connect to proxy, please try again...');
+proxy.on('error',  () => {
+    console.log('Could not connect to proxy, please try again...');
 });
 
 // error handlers =====================================
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -81,8 +79,8 @@ if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
         res.status(err.status || 500);
         res.render('error', {
-          message: err.message,
-          error: err
+            message: err.message,
+            error: err
         });
     });
 }
