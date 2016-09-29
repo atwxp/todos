@@ -1,4 +1,6 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import readLine from 'readline';
+import todo from './todo';
 
 mongoose.connect('mongodb://localhost/test');
 
@@ -19,6 +21,18 @@ function shutdown(msg, callback) {
     });
 }
 
+if (process.platform === 'win32') {
+    var rl = readLine.createInterface ({
+        input: process.stdin,
+        output: process.stdout
+    });
+    rl.on ('SIGINT', function (){
+        shutdown('app terminal exit', function () {
+            process.exit(0);
+        });
+    });
+}
+
 process.on('SIGINT', function () {
     shutdown('app terminal exit', function () {
         process.exit(0);
@@ -31,4 +45,4 @@ process.once('SIGUSR2', function () {
     });
 });
 
-module.exports = require('./todo');
+export default todo;

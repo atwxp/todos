@@ -5,22 +5,36 @@ VEMN(vue express mongodb node)
 
 ## 特性
 
-- `Vue` 的单页面应用
+- `webpack-dev-server` 实现前端自动刷新
 
-- 使用 `webpack-dev-server` 实现前端自动刷新
+- `nodemon` 自动重启服务器
 
-- `express` 重启, 重新刷新前端页面
+- `browserSync` 自动刷新
+
+browserSync 代理到 express，express 代理到 webpack
 
 ## 命令
 
-本地开发
+前后端本地服务开发
+
+`npm run start`
+
+前端本地服务开发
 
 `npm run server`
 
-前后端开发
+前端本地构建
 
-`npm start`
+`npm run build`
 
-生产环境
+生产环境下的前端构建
 
 `npm run pub`
+
+后端抓取开发环境下的前端代码
+
+`babel-node app.js`
+
+后端抓取生产环境下的前端代码
+
+`NODE_ENV=production babel-node app.js`

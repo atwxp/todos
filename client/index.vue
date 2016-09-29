@@ -1,6 +1,5 @@
 <template>
     <div class="app">
-        <!-- <img src="./assets/images/123.jpg" alt=""> -->
         <header>
             <h1 class="title">Todos</h1>
             <input type="text" v-model="todo" placeholder="Enter Todo" v-on:keyup.enter="addTodo">
@@ -14,7 +13,7 @@
 
             <todo-item v-for="td in todos" :todo.sync="td"></todo-item>
         </section>
-        
+
         <footer>
             <span class="remaing-text">{{remaining}} item<template v-if="remaining>1">s</template> left</span>
             <a class="status all">All</a>
@@ -26,10 +25,11 @@
 </template>
 
 <script>
-    var todoData = require('./services/todo');
+    import todoData from './services/todo';
+    import todoItem from './components/todo-item/';
 
-    module.exports = {
-        data: function () {
+    export default {
+        data () {
             return {
                 todo: '',
                 todos: [],
@@ -38,49 +38,43 @@
         },
 
         watch: {
-            allDone: function (v) {
-                this.todos.forEach(function (t) {
-                    t.done = v;
-                });
+            allDone (v) {
+                this.todos.forEach(t => t.done = v);
             }
         },
 
         computed: {
-            remaining: function () {
-                return this.todos.filter(function (v) {
-                    return !v.done;
-                }).length;
+            remaining () {
+                return this.todos.filter(v => !v.done).length;
             },
 
-            done: function () {
-                return this.todos.filter(function (v) {
-                    return v.done;
-                }).length;
+            done () {
+                return this.todos.filter(v => v.done).length;
             }
         },
 
         components: {
-            'todo-item': require('./components/todo-item/')
+            'todo-item': todoItem
         },
 
-        ready: function () {
-            this.getTodo();  
+        ready () {
+            this.getTodo();
         },
 
         methods: {
-            getTodo: function () {
+            getTodo () {
                 var me = this;
                 todoData
                     .getTodoList()
-                    .then(function (res) {
+                    .then(res => {
                         me.$set('todos', res.data);
                     })
-                    .catch(function (err) {
+                    .catch(err => {
                         console.log('get err: ', err);
                     });
             },
 
-            addTodo: function () {
+            addTodo () {
                 var me = this;
 
                 todoData
@@ -88,25 +82,25 @@
                         text: me.todo,
                         done: false
                     })
-                    .then(function (res) {
+                    .then(res => {
                         me.todos.unshift(res.data);
                         me.todo = '';
                     })
-                    .catch(function (err) {
+                    .catch(err => {
                         console.log(err);
                     });
 
             },
 
             // 批量删除
-            clearDone: function () {
+            clearDone () {
                 console.log('clear all');
             }
         },
 
         events: {
-            delTodo: function (todo) {
-                this.todos = this.todos.filter(function (v) {
+            delTodo (todo) {
+                this.todos = this.todos.filter(v => {
                     return v._id !== todo._id;
                 });
             }
@@ -181,7 +175,7 @@
                     text-decoration: underline;
                 }
             }
-            
+
         }
     }
 </style>

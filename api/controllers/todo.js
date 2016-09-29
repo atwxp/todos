@@ -1,10 +1,10 @@
 'use strict';
 
-var Todos = require('../models/db');
+import Todos from '../models/db';
 
 var send = function (res, status, data) {
     res.status(status);
-    res.json(data || {"status": "success"});
+    res.json(data || {'status': 'success'});
 };
 
 exports.create = function (req, res) {

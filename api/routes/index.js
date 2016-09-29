@@ -1,9 +1,9 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+import todos from '../controllers/todo';
 
-var todos = require('../controllers/todo');
+const router = express.Router();
 
 router.get('/todos', todos.read);
 
@@ -13,4 +13,4 @@ router.put('/todos/:id', todos.update);
 
 router.delete('/todos/:id', todos.remove);
 
-module.exports = router;
+export default router;

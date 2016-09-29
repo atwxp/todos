@@ -16,13 +16,13 @@
 </template>
 
 <script>
-    var todoData = require('../../services/todo');
-    var util = require('../../util');
+    import todoData from '../../services/todo';
+    import util from '../../util';
 
-    module.exports = {
+    export default {
         props: ['todo'],
 
-        data: function () {
+        data () {
             return {
                 editing: false,
                 showDel: false
@@ -39,21 +39,21 @@
                         done: v,
                         text: oldTodo.text
                     })
-                    .then(function (res) {
+                    .then(res => {
                         me.todo = res.data;
                     });
             }
         },
 
         methods: {
-            cancelEdit: function (e) {
+            cancelEdit (e) {
                 var text = util.trim(e.target.value);
                 var oldTodo = this.todo;
                 var me = this;
 
                 if (!text) {
                     this.delTodo(oldTodo)
-                        .then(function () {
+                        .then(() => {
                             me.todo = null;
                         });
 
@@ -66,26 +66,26 @@
                             done: oldTodo.done,
                             text: text
                         })
-                        .then(function (res) {
+                        .then(res => {
                             me.todo = res.data;
 
                             me.editing = false;
                         })
-                        .catch(function (err) {
+                        .catch(err => {
                             console.log('update todo: ', err);
                         });
                 }
             },
 
-            delTodo: function (todo) {
+            delTodo (todo) {
                 var me = this;
 
                 return todoData
                     .deleteTodo(todo._id)
-                    .then(function (res) {
+                    .then(res => {
                         me.$dispatch('delTodo', res.data);
                     })
-                    .catch(function (err) {
+                    .catch(err => {
                         console.log('delete todo: ', err);
                     });
             }

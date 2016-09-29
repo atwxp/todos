@@ -1,13 +1,18 @@
-var Vue = require('vue');
-var VueRouter = require('vue-router');
-var VueResource = require('vue-resource');
+/**
+ * @file   app entry
+ * @author wxp201013@163.com
+ */
 
-var App = require('./index.vue');
+import Vue from 'Vue';
+import VueRouter from 'vue-router';
+import VueResource from 'vue-resource';
+
+import App from './index';
 
 // install router
 Vue.use(VueRouter);
 // config router
-var router = new VueRouter();
+const router = new VueRouter();
 
 // install resource
 Vue.use(VueResource);
