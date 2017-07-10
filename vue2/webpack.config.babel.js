@@ -18,9 +18,9 @@ export default {
 
         filename: isProduction ? 'static/js/[name].[chunkhash].js' : '[name].js',
 
-        chunkFilename: isProduction ? 'static/js/[id].[chunkhash].js': '',
+        chunkFilename: isProduction ? 'static/js/[id].[chunkhash].js' : '',
 
-        sourceMapFilename: isProduction ? '': '[name].map.js',
+        sourceMapFilename: isProduction ? '' : '[name].map.js',
 
         publicPath: isProduction ? '/' : '/'
     },
@@ -119,7 +119,9 @@ export default {
 
     resolve: {
         extensions: ['.js', '.json', '.vue'],
-
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js'
+        },
         modules: [path.resolve(__dirname, 'src', 'app'), 'node_modules']
     }
 }

@@ -10,7 +10,6 @@
 </template>
 
 <script>
-// https://github.com/atwxp/900months/blob/master/src/ui/button/index.vue
 export default {
     name: 'u-button',
 

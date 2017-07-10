@@ -30,7 +30,6 @@ import uInput from '../ui/input'
 
 import { mapGetters, mapActions } from 'vuex'
 
-// todo: input autofocus, not focus trigger blur
 export default {
     name: 'todo-item',
 
@@ -57,7 +56,11 @@ export default {
         async updateTodoText(e) {
             const value = e.target.value
 
-            if (value !== this.todo.text) {
+            if (!value) {
+                await this.deleteTodo(this.todo)
+            }
+
+            else if (value !== this.todo.text) {
                 await this.updateTodo(Object.assign(this.todo, { text: value }))
             }
 

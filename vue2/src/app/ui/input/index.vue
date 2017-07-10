@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { mixin as focusMixin }  from 'vue-focus';
+
 export default {
     name: 'u-input',
 
@@ -96,13 +98,7 @@ export default {
         }
     },
 
-    directives: {
-        focus: {
-            updated(el, binding) {
-                binding.value && el.focus()
-            }
-        }
-    }
+    mixins: [focusMixin]
 }
 </script>
 

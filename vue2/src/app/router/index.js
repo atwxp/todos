@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Login from './components/login'
-import Todo from './components/todo'
+import Login from '../components/login'
+import Todo from '../components/todo'
 
 Vue.use(VueRouter)
 

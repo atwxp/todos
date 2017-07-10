@@ -4,6 +4,7 @@
 
     <u-input type="text" size="large"
         v-model="todoText"
+        :autofocus="true"
         placeholder="Enter Todo"
         v-on:enter="handleAddTodo">
     </u-input>

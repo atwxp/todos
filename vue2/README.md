@@ -24,4 +24,4 @@ npm run pub
 
 ## Scrennshot
 
-![](https://github.com/atwxp/todos/vue2/raw/master/img/todo.png)
+![](https://github.com/atwxp/todos/raw/master/vue2/img/todo.png)
