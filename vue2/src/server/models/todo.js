@@ -8,7 +8,9 @@ const todoSchema = mongoose.Schema({
 const todoModel = mongoose.model('Todo', todoSchema)
 
 class Todo {
-    constructor() {}
+    constructor() {
+        this.todoModel = todoModel
+    }
 
     async fetchById(id) {
         return await todoModel.find({}, '_id text done').exec()

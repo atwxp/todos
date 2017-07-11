@@ -1,7 +1,6 @@
 <template>
 <button :class="className"
     :disabled="disabled"
-    :name="name"
     :type="kind"
     @click="doClick"
 >
@@ -14,11 +13,6 @@ export default {
     name: 'u-button',
 
     props: {
-        name: {
-            type: String,
-            default: ''
-        },
-
         kind: {
             type: String,
             default: 'button',

@@ -18,7 +18,7 @@ const router = new KoaRouter()
 // middlewares
 app.use(cors())
 app.use(bodyParser())
-// app.use(responseFormatter)
+app.use(responseFormatter)
 
 // router
 router.use('/auth', auth.routes())
