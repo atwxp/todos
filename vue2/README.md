@@ -10,7 +10,7 @@ npm i
 mongod
 npm run server
 npm start
-打开 localhost:8080
+打开 http://localhost:8080
 
 // run test
 npm test
